@@ -7,10 +7,10 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "mocha --require test/setup.js",
-    "predeploy": "npm audit",
+    "predeploy": "npm run migrate-production",
     "deploy": "git push heroku master",
     "migrate": "postgrator --config postgrator-config.js",
-    "seed": "psql -U vonderlasa_admin -d vonderlasa-chess -f ./seeds/seed.vonderlasa_tables.sql"
+    "migrate-production": "postgrator --config postgrator-production-config.js"
   },
   "repository": {
     "type": "git",
@@ -28,13 +28,13 @@
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "helmet": "^3.15.1",
+    "helmet": "^3.16.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.16.3",
     "morgan": "^1.9.1",
     "pg": "^7.9.0",
     "treeize": "^2.1.2",
-    "xss": "^1.0.3"
+    "xss": "^1.0.6"
   },
   "devDependencies": {
     "chai": "^4.2.0",
