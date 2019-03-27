@@ -27,34 +27,6 @@ const BooksService= {
       });
   },
   getPublishedChapters(db, chapter_order) {
-    // return db
-    //   .from('books')
-    //   .select('chapter_order')
-    //   .where('id', bookId)
-    //   .then(([response]) => {
-    //     const {chapter_order} = response;
-    //     return chapter_order;
-    //   })
-    //   .then(chapterOrder => {
-    //     return db
-    //       .from('chapters')
-    //       .select(
-    //         'id',
-    //         'title',
-    //         'content',
-    //         'date_published'
-    //       )
-    //       .whereIn('id', chapterOrder)
-    //       .andWhere('book_id', bookId)
-    //       .then((chapters) => {
-    //         //sort the chapters in the order they appear in the chapter_order
-    //         return chapters.sort((a,b) => {
-    //           const indexA = chapterOrder.indexOf(a.id);
-    //           const indexB = chapterOrder.indexOf(b.id);
-    //           return indexA < indexB ? -1 : (indexA === indexB ? 0 : 1);
-    //         });
-    //       });
-    //   });
     return db
       .from('chapters')
       .select(

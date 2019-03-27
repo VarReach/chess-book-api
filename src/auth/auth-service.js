@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const Treeize = require('treeize');
+const xss = require('xss');
 
 const authService = {
   getUserWithUsername(db, user_name) {
@@ -18,20 +19,32 @@ const authService = {
         'cc.chapter_id AS completed_chapters:id',
         'cc.date_completed AS completed_chapters:date_completed'
       )
-      .leftJoin(
+      .fullOuterJoin(
         'completed_chapters AS cc',
         'cc.user_id',
         'u.id'
       )
       .where('u.id', userId);
   },
-  serializeUser(user) {
+  insertCompletedChapter(db, newCompletion) {
+    return db
+      .insert(newCompletion)
+      .into('completed_chapters')
+      .returning([
+        'chapter_id AS id',
+        'date_completed'
+      ])
+      .then(([cc]) => cc);
+  },
+  serializeUser(userData) {
     const userTree = new Treeize();
-    const serializedUser = {
-      ...user,
-      user_name: user.user_name,
-    };
-    return userTree.grow([serializedUser]).getData()[0];
+    const serializedUser = userData.map(data => {
+      return {
+        ...data,
+        user_name: xss(data.user_name),
+      } 
+    });
+    return userTree.grow(serializedUser).getData()[0];
   },
   parseBasicToken(token) {
     return Buffer

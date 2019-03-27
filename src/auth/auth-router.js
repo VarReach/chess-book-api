@@ -1,23 +1,15 @@
 const express = require('express');
 const AuthService = require('./auth-service');
-const { requireAuth, requireAdminAuth } = require('../middleware/jwt-auth');
+const { requireAuth } = require('../middleware/jwt-auth');
 
 const authRouter = express.Router();
 const bodyParser = express.json();
 
 authRouter
-  .get('/users', requireAuth, (req, res, next) => {
-    return AuthService.getUserInfoById(req.app.get('db'), req.user.id)
-      .then(([user]) => {
-        return res.json(AuthService.serializeUser(user))
-      })
-      .catch(next);
-  })
   .post('/login', bodyParser, verifyUser, (req, res, next) => {
     const dbUser = req.dbUser;
     const sub = dbUser.user_name;
     let payload = { user_id: dbUser.id };
-    dbUser.perms && (payload.permissions = dbUser.perms);
     res.send({
       authToken: AuthService.createJwt(sub, payload)
     });
@@ -28,6 +20,32 @@ authRouter
     res.send({
       authToken: AuthService.createJwt(sub, payload),
     });
+  });
+
+authRouter
+  .route('/users')
+  .all(requireAuth)
+  .get((req, res, next) => {
+    return AuthService.getUserInfoById(req.app.get('db'), req.user.id)
+      .then((user) => {
+        return res.json(AuthService.serializeUser(user))
+      })
+      .catch(next);
+  });
+
+authRouter
+  .route('/users/completed_chapters/:chapterId')
+  .all(requireAuth)
+  .post(bodyParser, (req, res, next) => {
+    const chapterId = req.params.chapterId;
+    const newCompletion = { ids: req.user.id+'-'+chapterId, chapter_id: chapterId, user_id: req.user.id, date_completed: new Date() }
+    return AuthService.insertCompletedChapter(req.app.get('db'), newCompletion)
+      .then(cc => {
+        res
+          .status(201)
+          .json(cc);
+      })
+      .catch(next);
   });
 
 

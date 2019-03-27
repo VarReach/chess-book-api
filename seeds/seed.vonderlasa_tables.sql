@@ -1,10 +1,8 @@
 BEGIN;
 
 TRUNCATE
-  completed_puzzles,
   completed_chapters,
   users,
-  puzzles,
   books,
   chapters
   RESTART IDENTITY CASCADE;
@@ -72,8 +70,9 @@ VALUES
   (1, 'Unpublished', null),
   (1, 'Unpublished 2', null);
 
-INSERT INTO completed_chapters (user_id, chapter_id)
+INSERT INTO completed_chapters (ids, user_id, chapter_id)
 VALUES
-  (1, 1);
+  ('1-1', 1, 1),
+  ('1-2', 1, 2);
 
 COMMIT;

@@ -8,7 +8,6 @@ BooksRouter
   .get((req, res, next) => {
     BooksService.getAllBooks(req.app.get('db'))
       .then(books => {
-        console.log(books);
         return res.json(BooksService.serializeBooks(books));
       })
       .catch(next);

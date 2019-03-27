@@ -6,10 +6,11 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 
 const AuthRouter = require('./auth/auth-router');
+
 const BooksRouter = require('./books/books-router');
+const ChaptersRouter = require('./chapters/chapters-router');
 
 const ChaptersEditorRouter = require('./editor/chapters-editor/chapters-editor-router');
-// const ArticlesEditorRouter = require('./editor/Articles-editor/articles-editor-router');
 const BooksEditorRouter = require('./editor/books-editor/books-editor-router');
 
 const app = express();
@@ -23,6 +24,8 @@ app.use(helmet());
 app.use(cors());
 
 app.use('/api/auth', AuthRouter);
+
+app.use('/api/books', ChaptersRouter); //note that Chapter is identified by the Book ID and the index -> references chapter_order in book
 app.use('/api/books', BooksRouter);
 
 app.use('/api/editor/chapters', ChaptersEditorRouter);

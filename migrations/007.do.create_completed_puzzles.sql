@@ -1,5 +1,0 @@
-CREATE TABLE completed_puzzles (
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  puzzle_id INTEGER REFERENCES puzzles(id) ON DELETE CASCADE NOT NULL,
-  date_completed TIMESTAMP DEFAULT now() NOT NULL
-);
