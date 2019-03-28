@@ -16,6 +16,9 @@ INSERT INTO books (title, blurb, chapter_order, published, default_book)
 VALUES
   ('Fundamentals', 'All about the Fundamentals', ARRAY[2,1], true, true),
   ('Basics','Nothing like the basics', ARRAY[3,4], true, null),
+  ('Null Test', 'Its null. What do you expect?','{}', true, null),
+  ('Null Test', 'Its null. What do you expect?','{}', true, null),
+  ('Null Test', 'Its null. What do you expect?','{}', true, null),
   ('Null Test', 'Its null. What do you expect?','{}', null, null);
 
 INSERT INTO chapters (book_id, title, content)

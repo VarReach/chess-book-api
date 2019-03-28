@@ -10,44 +10,23 @@ authRouter
     const dbUser = req.dbUser;
     const sub = dbUser.user_name;
     let payload = { user_id: dbUser.id };
+    if (dbUser.perms) {
+      payload['perms'] = true;
+    }
     res.send({
       authToken: AuthService.createJwt(sub, payload)
     });
   })
   .post('/refresh', requireAuth, (req, res) => {
     const sub = req.user.user_name;
-    const payload = { user_id: req.user.id };
+    let payload = { user_id: req.user.id };
+    if (req.user.perms) {
+      payload['perms'] = true;
+    }
     res.send({
       authToken: AuthService.createJwt(sub, payload),
     });
   });
-
-authRouter
-  .route('/users')
-  .all(requireAuth)
-  .get((req, res, next) => {
-    return AuthService.getUserInfoById(req.app.get('db'), req.user.id)
-      .then((user) => {
-        return res.json(AuthService.serializeUser(user))
-      })
-      .catch(next);
-  });
-
-authRouter
-  .route('/users/completed_chapters/:chapterId')
-  .all(requireAuth)
-  .post(bodyParser, (req, res, next) => {
-    const chapterId = req.params.chapterId;
-    const newCompletion = { ids: req.user.id+'-'+chapterId, chapter_id: chapterId, user_id: req.user.id, date_completed: new Date() }
-    return AuthService.insertCompletedChapter(req.app.get('db'), newCompletion)
-      .then(cc => {
-        res
-          .status(201)
-          .json(cc);
-      })
-      .catch(next);
-  });
-
 
 async function verifyUser(req, res, next) {
   //verify login info

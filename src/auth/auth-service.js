@@ -10,32 +10,6 @@ const authService = {
       .where({user_name})
       .first();
   },
-  getUserInfoById(db, userId) {
-    return db
-      .from('users AS u')
-      .select(
-        'u.id ',
-        'u.user_name',
-        'cc.chapter_id AS completed_chapters:id',
-        'cc.date_completed AS completed_chapters:date_completed'
-      )
-      .fullOuterJoin(
-        'completed_chapters AS cc',
-        'cc.user_id',
-        'u.id'
-      )
-      .where('u.id', userId);
-  },
-  insertCompletedChapter(db, newCompletion) {
-    return db
-      .insert(newCompletion)
-      .into('completed_chapters')
-      .returning([
-        'chapter_id AS id',
-        'date_completed'
-      ])
-      .then(([cc]) => cc);
-  },
   serializeUser(userData) {
     const userTree = new Treeize();
     const serializedUser = userData.map(data => {
