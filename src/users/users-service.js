@@ -43,15 +43,12 @@ const UsersService = {
       .then(([user]) => user);
   },
   validatePassword(password) {
-    switch (password) {
-      case (password.length < 6):
-        return 'Password must be longer than 6 characters';
-      case (password.length > 72):
-        return 'Password must be less than 72 characters';
-      case (password.startsWith(' ') || password.endsWith(' ')):
-        return 'Password must not start or end with empty spaces';
-      default:
-        return null;
+    if (password.length < 6) {
+      return 'Password must be longer than 6 characters';
+    } else if (password.length > 72) {
+      return 'Password must be less than 72 characters';
+    } else if (password.startsWith(' ') || password.endsWith(' ')) {
+      return 'Password must not start or end with empty spaces';
     }
   },
   serializeUserInfo(userData) {

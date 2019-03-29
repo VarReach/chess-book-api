@@ -15,7 +15,8 @@ const booksEditorService= {
   getAllBooks(db) {
     return db
       .from('books')
-      .select('*');
+      .select('*')
+      .orderBy([{column: 'id', order: 'asc'}, {column: 'date_modified', order: 'desc'}, 'default_book']);
   },
   getBookById(db, id) {
     return db
@@ -56,7 +57,12 @@ const booksEditorService= {
     return db
     .from('books')
     .where('id', id)
-    .update(updatedBook);
+    .update(updatedBook)
+    .returning('*')
+    .then(([book]) => book)
+    .then(book => 
+      this.getBookById(db, book.id)
+    );
   },
   insertBook(db, newBook) {
     return db
@@ -91,6 +97,14 @@ const booksEditorService= {
       }
     });
     return chaptersTree.grow(serializedChapters).getData()[0];
+  },
+  verifyTitle(title) {
+    if (title.length < 6) {
+      return 'Book title must be atleast 6 characters';
+    } else if (title.length > 72) {
+      return 'Book title must be less than 72 characters';
+    }
+    return;
   }
 };
 

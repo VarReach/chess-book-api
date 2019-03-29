@@ -17,12 +17,17 @@ booksEditorRouter
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
-    const { title } = req.body;
+    let { title } = req.body;
     const newBook = { title };
 
     if (title == null) {
       return res.status(400).json({ error: `Missing 'title' in request body`});
     }
+    const titleError = BooksEditorService.verifyTitle(title);
+    if (titleError) {
+      return res.status(400).json({ message: titleError });
+    }
+    title = title.trim();
 
     BooksEditorService.insertBook(
       req.app.get('db'),
@@ -47,21 +52,38 @@ booksEditorRouter
   .patch(bodyParser, (req, res, next) => {
     const id = req.params.bookId;
     const { title, chapter_order, published } = req.body;
-    const updatedBook = { title, chapter_order, published, date_modified: new Date() };
-
+    //checks if the value exists then puts them into the new 'updatedBook'
+    let updatedBook = {};    
     if (typeof published != 'undefined') {
-      (published)
-        ? updatedBook.date_published = new Date()
-        : updatedBook.date_published = null;
+      if (req.book.published !== published) {
+        (published)
+          ? updatedBook.date_published = new Date()
+          : updatedBook.date_published = null;
+        updatedBook.published = published;
+      }
     }
+    if (typeof title != 'undefined') {
+      const titleError = BooksEditorService.verifyTitle(title);
+      if (titleError) {
+        return res.status(400).json({ message: titleError });
+      }
+      updatedBook.title = title.trim();
+    }
+    if (typeof chapter_order != 'undefined') {
+      updatedBook.chapter_order = chapter_order;
+    }
+    if (!Object.keys(updatedBook).length > 0) {
+      return res.status(400).json({ message: 'Must supply at least one changed value'});
+    }
+    updatedBook.date_modified = new Date();
 
     BooksEditorService.updateBook(
       req.app.get('db'),
       id,
       updatedBook
     )
-      .then(() => {
-        return res.sendStatus(204);
+      .then((book) => {
+        return res.json(BooksEditorService.serializeBook(book));
       })
       .catch(next);
   })

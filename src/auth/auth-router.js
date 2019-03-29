@@ -36,7 +36,7 @@ async function verifyUser(req, res, next) {
     //verify each key has a value
     for (const key in loginUser) {
       if (loginUser[key] == null) {
-        return res.status(400).json({ error: `Missing '${key}' in request body` });
+        return res.status(400).json({ message: `Missing '${key}' in request body` });
       }
     }
     const dbUser = await AuthService.getUserWithUsername(
@@ -46,13 +46,13 @@ async function verifyUser(req, res, next) {
       .then(dbUser => {
         //confirm user exists
         if (!dbUser) {
-          return res.status(401).json({ error: 'Unauthorized request' });
+          return res.status(400).json({ message: 'Incorrect username or password' });
         }
 
         return AuthService.comparePasswords(loginUser.password, dbUser.password)
           .then(passComparisonMatch => {
             if (!passComparisonMatch) {
-              return res.status(401).json({ error: 'Unauthorized request' });
+              return res.status(400).json({ message: 'Incorrect username or password' });
             }
             req.dbUser = dbUser;
             next();

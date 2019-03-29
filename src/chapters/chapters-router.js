@@ -11,7 +11,7 @@ ChaptersRouter
     ChaptersService.getChapterByBookChapterOrderAndChapterIndex(req.app.get('db'),chapterOrder, chapterIndex)
       .then(chapter => {
         if (!chapter) {
-          return res.status(404).json({ error: `Chapter with index ${req.params.chapterIndex} in Book ${req.book.id} doesn't exist` });
+          return res.status(404).json({ message: `Chapter with index ${req.params.chapterIndex} in Book ${req.book.id} doesn't exist` });
         }
         return res.json(
           ChaptersService.serializeChapter(
@@ -23,7 +23,9 @@ ChaptersRouter
           )
         );
       })
-      .catch(next);
+      .catch(err=> {
+        next(err);
+      });
   });
 
 async function checkBookExists(req, res, next) {
@@ -35,7 +37,7 @@ async function checkBookExists(req, res, next) {
 
     if (!book) {
       return res.status(404).json({
-        error: `Book ${req.params.bookId} doesn't exist`
+        message: `Book ${req.params.bookId} doesn't exist`
       });
     }
 

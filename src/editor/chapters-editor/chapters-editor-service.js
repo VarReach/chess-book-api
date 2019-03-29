@@ -35,6 +35,14 @@ const ChaptersEditorService= {
       ...chapter,
       title: xss(chapter.title)
     }
+  },
+  verifyChapterTitle(title) {
+    if (title.length < 6) {
+      return 'Book title must be atleast 6 characters';
+    } else if (title.length > 72) {
+      return 'Book title must be less than 72 characters';
+    }
+    return;
   }
 };
 

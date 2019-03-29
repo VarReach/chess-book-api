@@ -10,17 +10,9 @@ BooksRouter
       .then(books => {
         return res.json(BooksService.serializeBooks(books));
       })
-      .catch(next);
-  });
-
-BooksRouter
-  .route('/:bookId/chapters')
-  .get((req, res, next) => {
-    BooksService.getPublishedChapters(req.app.get('db'), req.params.bookId)
-      .then(chapters => {
-        return res.json(BooksService.serializeChapters(chapters));
-      })
-      .catch(next);
+      .catch(err=> {
+        next(err);
+      });
   });
 
 module.exports = BooksRouter;

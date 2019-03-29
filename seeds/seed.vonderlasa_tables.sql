@@ -170,7 +170,7 @@ VALUES
     }'
   ),
   (1, 'This', null),
-  (1, 'Unpublished', ('{
+  (2, 'Unpublished', ('{
   "blocks": [
     {
       "key": "a983p",
@@ -262,7 +262,7 @@ VALUES
     }
   }
 }')),
-  (1, 'Unpublished 2', null);
+  (2, 'Unpublished 2', null);
 
 INSERT INTO completed_chapters (ids, user_id, chapter_id)
 VALUES

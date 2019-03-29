@@ -15,8 +15,13 @@ const ChaptersService= {
       .first();
   },
   serializeContent(content) {
-    return (
-      content 
+    console.log('hi');
+    if (content && content.blocks && !content.blocks.length) {
+      return content;
+    }
+    console.log(content);
+    let resp = (
+      content
       ? {
           ...content,
           blocks: content.blocks.map(cBlock => {
@@ -25,6 +30,7 @@ const ChaptersService= {
         }
       : null
     );
+    return resp;
   },
   serializeChapter(chapter) {
     return {

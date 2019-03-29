@@ -69,7 +69,22 @@ chaptersEditorRouter
     //reponds with the updated object, as it is modifying the 'date_modified' field
     const id = req.params.chapterId;
     const { title, content } = req.body;
-    const updatedChapter = { title, content, date_modified: new Date() };
+    let updatedChapter = {};    
+    if (typeof content != 'undefined') {
+      updatedChapter.content = content;
+    }
+    if (typeof title != 'undefined') {
+      const titleError = ChaptersEditorService.verifyTitle(title);
+      if (titleError) {
+        return res.status(400).json({ message: titleError });
+      }
+      updatedChapter.title = title.trim();
+    }
+    if (!Object.keys(updatedChapter).length > 0) {
+      return res.status(400).json({ message: 'Must supply at least one changed value'});
+    }
+    updatedChapter.date_modified = new Date();
+
 
     ChaptersEditorService.updateChapter(
       req.app.get('db'),
