@@ -67,7 +67,6 @@ UsersRouter
           .json(cc);
       })
       .catch(err => {
-        console.error(err);
         next(err);
       });
   });

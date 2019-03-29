@@ -15,11 +15,9 @@ const ChaptersService= {
       .first();
   },
   serializeContent(content) {
-    console.log('hi');
     if (content && content.blocks && !content.blocks.length) {
       return content;
     }
-    console.log(content);
     let resp = (
       content
       ? {
