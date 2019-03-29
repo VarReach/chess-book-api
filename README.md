@@ -76,7 +76,7 @@ Grabs information on a chapter inside a book. Based on the chapter_order array i
 ```
 ---
 
-####Auth Router
+#### Auth Router
 
 ```
 .post .../login
@@ -89,7 +89,7 @@ Takes a user_name and password in the request body and checks it against the dat
 Requires a valid, non-expired auth token. Reponds with another token. Intended to refresh the timer on JWT that are about to expire.
 
 
-####Protected Endpoints:
+#### Protected Endpoints:
 
 ```
 .get /api/users
@@ -143,7 +143,39 @@ Used to post completed chapter information to the database for a user. Grabs the
   ...
 ]
 ```
-Grabs all available information on all books
+Grabs all available information on all books.
+
+`.post .../api/editor/books`
+
+Used to create a new book in the database. Requires a title and verifies title attributes such as length.
+
+#### Example response:
+
+```
+{
+  "id": 7,
+  "title": "testing",
+  "blurb": "I like to test...",
+  "chapter_order": [1,2 ...],
+  "default_book": null,
+  "published": null,
+  "date_created": ...
+  "date_published": null,
+  "date_modified": null
+}
+```
+
+`.get .../api/editor/books/:bookId/`
+
+Grabs specific information on a book in the database. See post route for example data.
+
+`.patch .../api/editor/books/:bookId`
+
+Requires any of: a new title, a new chapter order, a new blurb or new publishment status. Responds with the updated chapter. See post route for example data.
+
+`.delete .../api/editor/books/:bookId`
+
+Deletes the designated book.
 
 ## Set up
 
