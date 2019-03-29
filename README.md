@@ -1,6 +1,53 @@
-# Express Boilerplate!
+# Chess-Book API
 
-This is a boilerplate express/node project used for starting new projects!
+Chess-Book is a web application designed to hold the eventual chessbook(s) my Father intends to write. 
+Demo: https://varreach-chess-book-demo.now.sh/
+Client Repo: https://github.com/VarReach/chess-book-client
+
+## API and Example Responses
+
+### Public Endpoints
+
+```
+.get .../api/books
+```
+
+Grabs all info on published books.
+
+###### Example response:
+
+```javascript
+[
+  {
+    "id": 1,
+    "title": "Dummy Title",
+    "blurb": "Placeholder",
+    "default_book": null,
+    "chapter_order": [],
+    "chapters": []
+  },
+  {
+    "id": 2,
+    "title": "Basics",
+    "blurb": "Nothing like the basics",
+    "default_book": null,
+    "chapter_order": [
+        2,
+        1
+      ],
+    "chapters": [
+        {
+          "id": 2,
+          "title": "Dummy Chapter Title"
+        },
+        {
+          "id": 1,
+          "title": "Chapter 1"
+        }
+      ]
+  },
+]
+```
 
 ## Set up
 
