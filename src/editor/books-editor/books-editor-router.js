@@ -17,8 +17,12 @@ booksEditorRouter
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
-    let { title } = req.body;
+    let { title, blurb } = req.body;
     const newBook = { title };
+
+    if (blurb) {
+      newBook.blurb = blurb;
+    }
 
     if (title == null) {
       return res.status(400).json({ error: `Missing 'title' in request body`});
@@ -51,7 +55,7 @@ booksEditorRouter
   })
   .patch(bodyParser, (req, res, next) => {
     const id = req.params.bookId;
-    const { title, chapter_order, published } = req.body;
+    const { title, chapter_order, published, blurb } = req.body;
     //checks if the value exists then puts them into the new 'updatedBook'
     let updatedBook = {};    
     if (typeof published != 'undefined') {
@@ -62,16 +66,21 @@ booksEditorRouter
         updatedBook.published = published;
       }
     }
-    if (typeof title != 'undefined') {
+    if (title) {
       const titleError = BooksEditorService.verifyTitle(title);
       if (titleError) {
         return res.status(400).json({ message: titleError });
       }
       updatedBook.title = title.trim();
     }
-    if (typeof chapter_order != 'undefined') {
+    if (chapter_order) {
       updatedBook.chapter_order = chapter_order;
     }
+
+    if (blurb) {
+      updatedBook.blurb = blurb;
+    }
+    
     if (!Object.keys(updatedBook).length > 0) {
       return res.status(400).json({ message: 'Must supply at least one changed value'});
     }

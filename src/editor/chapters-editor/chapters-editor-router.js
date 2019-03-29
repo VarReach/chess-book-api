@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const ChaptersEditorService = require('./chapters-editor-service');
 const { requireAdminAuth} = require('../../middleware/jwt-auth');
+const BooksEditorService = require('../books-editor/books-editor-service');
 const bodyParser = express.json();
 
 
@@ -10,7 +11,7 @@ const chaptersEditorRouter = express.Router();
 chaptersEditorRouter
   .route('/')
   .all(requireAdminAuth)
-  .post(bodyParser, (req, res, next) => {
+  .post(bodyParser, checkBookExists, (req, res, next) => {
     const { book_id, title } = req.body;
     const newChapter = { book_id, title };
 
@@ -96,5 +97,25 @@ chaptersEditorRouter
       })
       .catch(next);
   });
+
+async function checkBookExists(req, res, next) {
+  try {
+    const book = await BooksEditorService.getBookById(
+      req.app.get('db'),
+      req.body.book_id
+    );
+
+    if (!book) {
+      return res.status(404).json({
+        error: `Book ${req.body.book_id} doesn't exist`
+      });
+    }
+
+    req.book = book;
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = chaptersEditorRouter;
