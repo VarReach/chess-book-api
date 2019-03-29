@@ -98,7 +98,7 @@ Requires a valid, non-expired auth token. Reponds with another token. Intended t
 Get information about a user. Used to grab what chapters a user has completed. 
 
 ###### Example response:
-```
+```javascript
 {
   "id": 1,
   "user_name": "username",
@@ -126,7 +126,7 @@ Used to post completed chapter information to the database for a user. Grabs the
 
 
 ###### Example response:
-```
+```javascript
 [
   {
     "id": 1,
@@ -152,7 +152,7 @@ Used to create a new book in the database. Requires a title and verifies title a
 
 ##### Example response:
 
-```
+```javascript
 {
   "id": 7,
   "title": "testing",
@@ -177,6 +177,61 @@ Requires any of: a new title, a new chapter order, a new blurb or new publishmen
 `.delete .../api/editor/books/:bookId`
 
 Deletes the designated book.
+
+---
+	
+`.get .../api/editor/chapters`
+
+Grabs all available information on all books
+
+###### Example response:
+
+```javascript
+[
+  {
+    "id": 1,
+    "title": "Fundamentals",
+    "blurb": "All about the Fundamentals",
+    "chapter_order": [
+      ...
+    ],
+    "default_book": true,
+    "published": true,
+    "date_created": ...
+    "date_published": ...
+    "date_modified": ...
+  },
+  ...
+]
+```
+
+`.post .../api/editor/chapters`
+
+Used to create a new chapter in the database. Requires an associated book_id and title. Checks to make sure the book exists.
+
+```javascript
+{
+  "id": 6,
+  "book_id": 1,
+  "title": "testing",
+  "content": null,
+  "date_created": "2019-03-30T01:04:43.116Z",
+  "date_published": null,
+  "date_modified": null
+}
+```
+
+`.get .../api/editor/chapters/:chapterId`
+
+Grabs specific information on a chapter in the database. 
+
+`.patch .../api/editor/chapters/:chapterId`
+
+Requires any of: a new title, new content. Responds with no content.
+
+`.delete .../api/editor/chapters/:chapterId`
+
+Deletes the designated chapter.
 
 ## Set up
 
