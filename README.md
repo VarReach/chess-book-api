@@ -48,6 +48,102 @@ Grabs all info on published books.
   },
 ]
 ```
+---
+```
+.get .../api/books/:bookId/chapter/:chapterIndex
+```
+
+Grabs information on a chapter inside a book. Based on the chapter_order array inside the book object.
+
+###### Example response:
+
+```javascript
+{
+  "id": 2,
+  "title": "Dummy Chapter Title",
+  "content": {
+    "blocks": [
+      {
+        ...
+      }
+    ],
+    ...
+  },
+  "date_published": null,
+  "book_title": "Basics",
+  "last_chapter_available": 2
+}
+```
+---
+
+####Auth Router
+
+```
+.post .../login
+```
+Takes a user_name and password in the request body and checks it against the database, returns with a JWT.
+
+```
+.post /refresh
+```
+Requires a valid, non-expired auth token. Reponds with another token. Intended to refresh the timer on JWT that are about to expire.
+
+
+####Protected Endpoints:
+
+```
+.get /api/users
+```
+Get information about a user. Used to grab what chapters a user has completed. 
+
+###### Example response:
+```
+{
+  "id": 1,
+  "user_name": "username",
+  "completed_chapters": [
+    {
+      "id": 1,
+      "date_completed": ...
+    },
+    ...
+  ]
+}
+```
+
+```
+.post /api/users/completed_chapters/:chapterId
+```
+
+Used to post completed chapter information to the database for a user. Grabs the user id automatically from the required authorization bearer token.
+
+---
+
+```
+.get /api/editor/books
+```
+
+
+###### Example response:
+```
+[
+  {
+    "id": 1,
+    "title": "Fundamentals",
+    "blurb": "All about the Fundamentals",
+    "chapter_order": [
+      ...
+    ],
+    "default_book": true,
+    "published": true,
+    "date_created": ...
+    "date_published": ...
+    "date_modified": ...
+  },
+  ...
+]
+```
+Grabs all available information on all books
 
 ## Set up
 
