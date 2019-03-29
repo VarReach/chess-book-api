@@ -88,8 +88,9 @@ Takes a user_name and password in the request body and checks it against the dat
 ```
 Requires a valid, non-expired auth token. Reponds with another token. Intended to refresh the timer on JWT that are about to expire.
 
+---
 
-#### Protected Endpoints:
+### Protected Endpoints:
 
 ```
 .get /api/users
@@ -149,7 +150,7 @@ Grabs all available information on all books.
 
 Used to create a new book in the database. Requires a title and verifies title attributes such as length.
 
-#### Example response:
+##### Example response:
 
 ```
 {
