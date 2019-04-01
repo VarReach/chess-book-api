@@ -1,7 +1,7 @@
 # Chess-Book API
 
 Chess-Book is a web application designed to hold the eventual chessbook(s) my Father intends to write. 
-Demo: https://varreach-chess-book-demo.now.sh/
+Demo: https://varreach-chessbook-demo.now.sh/
 Client Repo: https://github.com/VarReach/chess-book-client
 
 ## API and Example Responses
