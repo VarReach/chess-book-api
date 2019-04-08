@@ -9,22 +9,17 @@ TRUNCATE
 
 INSERT INTO users (user_name, password, perms)
 VALUES
-  ('dunder', '$2a$12$lHK6LVpc15/ZROZcKU00QeiD.RyYq5dVlV/9m4kKYbGibkRc5l4Ne', true),
-  ('demo2', '$2a$12$lHK6LVpc15/ZROZcKU00QeiD.RyYq5dVlV/9m4kKYbGibkRc5l4Ne', null);
+  ('Carlsen', '$2a$10$6TKzv7WsHDBHM8NPNhyTpOu4WNglnz05Ldf2J95F7bYeCetQPKV8W', true),
+  ('Whatschess', '$2a$10$WSKfwYQ/V5Wwzwq8QhicHOKyzU1Wl37HAWiI8.tzBhvt8TnVhTTJe', null);
 
 INSERT INTO books (title, blurb, chapter_order, published, default_book)
 VALUES
   ('Fundamentals', 'All about the Fundamentals', ARRAY[2,1], true, true),
-  ('Basics','Nothing like the basics', ARRAY[3,4], true, null),
-  ('Null Test', 'Its null. What do you expect?','{}', true, null),
-  ('Null Test', 'Its null. What do you expect?','{}', true, null),
-  ('Null Test', 'Its null. What do you expect?','{}', true, null),
-  ('Null Test', 'Its null. What do you expect?','{}', null, null);
+  ('Basics','Nothing like the basics', ARRAY[3], true, null);
 
 INSERT INTO chapters (book_id, title, content)
 VALUES
-  (1, 'Testing',
-    '{
+  (1, 'The true basics', '{
       "blocks": [
         {
           "key": "a983p",
@@ -169,9 +164,54 @@ VALUES
       }
     }'
   ),
-  (1, 'This', null),
-  (2, 'Unpublished', ('{
+  (1, 'What an empty board looks like', '{
   "blocks": [
+    {
+      "key": "399jt",
+      "text": " Vestibulum rutrum pretium dui, nec viverra eros pulvinar ut. Nulla sed  diam vitae erat dignissim consectetur quis ut massa. Fusce varius, metus  ac porta pharetra, turpis lectus facilisis neque, ut ultrices urna  neque eu nisi. Integer purus diam, auctor vel lobortis tincidunt,  scelerisque eget nulla. Phasellus pharetra ornare mauris ut auctor.  Pellentesque nunc ante, gravida vel pretium id, condimentum a eros.  Fusce maximus vestibulum luctus. Aenean eget dolor lectus. ",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [],
+      "data": {}
+    },
+    {
+      "key": "37ol1",
+      "text": "Fusce imperdiet, urna non pretium ornare, lectus dui pellentesque elit,  eu fringilla mauris neque sit amet ipsum. Phasellus interdum lacus at  risus tempus, vitae dictum eros vestibulum. Pellentesque id odio id  purus luctus pulvinar sit amet vel diam. Curabitur fermentum tincidunt  libero id molestie. Mauris sit amet lacus egestas, aliquet augue non,  elementum tellus. Donec in diam vel dolor iaculis posuere vel non  lectus. Nullam vel turpis varius, fermentum elit at, iaculis velit. ",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [],
+      "data": {}
+    },
+    {
+      "key": "bsccb",
+      "text": "",
+      "type": "atomic",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [],
+      "data": {
+        "type": "chessboard",
+        "position": "empty",
+        "caption": "This is an empty board.",
+        "source": "No source."
+      }
+    },
+    {
+      "key": "57kb7",
+      "text": " Maecenas non magna imperdiet, condimentum quam sit amet, tincidunt  tellus. Aliquam vitae rutrum arcu. Sed accumsan ligula in quam luctus  eleifend. Mauris purus nisl, mattis a libero nec, elementum ornare  mauris. Cras aliquet tempus risus, et condimentum dui mollis et.  Vestibulum non porta nibh. Maecenas consectetur sodales nunc vitae  euismod.  ",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [],
+      "data": {}
+    }
+  ],
+  "entityMap": {}
+  }'),
+  (2, '10 things you are doing wrong', '{
+    "blocks": [
     {
       "key": "a983p",
       "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac mauris fringilla felis viverra suscipit ac sit amet nibh. Donec euismod nibh in ante malesuada, sit amet aliquet magna porttitor. Aenean laoreet sit amet ipsum a lacinia. Curabitur ullamcorper sed ante et fermentum. Praesent est mauris, faucibus in volutpat at, suscipit vitae magna. Nam tempus urna in lorem venenatis consectetur et at lorem. Ut mi ex, malesuada non mi et, iaculis tristique ipsum. Sed placerat porttitor condimentum. Curabitur interdum metus quis pulvinar auctor. Nulla id posuere ante.",
@@ -261,12 +301,6 @@ VALUES
       }
     }
   }
-}')),
-  (2, 'Unpublished 2', null);
-
-INSERT INTO completed_chapters (ids, user_id, chapter_id)
-VALUES
-  ('1-1', 1, 1),
-  ('1-2', 1, 2);
+}');
 
 COMMIT;
